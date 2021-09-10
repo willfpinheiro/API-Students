@@ -1,5 +1,6 @@
 package com.example.demo.student;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -8,15 +9,15 @@ import java.util.List;
 
 @Service // precisamos dizer que aqui tem um componente do tipo service, para poder ser enchergado dentro do controller
 public class StudentService {
+
+    @Autowired
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
+    private final StudentRepository studentRepository;
+
     public List<Student> getStudents(){
-        return List.of(
-                new Student(
-                        1L,
-                        "Will",
-                        "will@gmail.com",
-                        LocalDate.of(2000, Month.JANUARY, 5),
-                        21
-                )
-        );
+        return studentRepository.findAll();
     }
 }
